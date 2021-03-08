@@ -12,4 +12,4 @@ def check_power_of_two(a: int) -> bool:
     if a <= 0:
         return False
     else:
-        return not (bool(a & (a - 1)))
+        return a & (a - 1) == 0
