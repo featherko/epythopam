@@ -1,0 +1,5 @@
+asdf  \u00fc fasdf
+asdf \u00e4fdasffa
+\u00dc  asdfasdf
+\u00bb
+asdfasdfadf  \u00ab
