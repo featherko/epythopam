@@ -30,9 +30,7 @@ def get_rarest_char(file_path: str) -> str:
     """
     with open(file_path, encoding="unicode-escape") as f:
         text = f.read()
-    char_dict = {}
-    for char in set(text):
-        char_dict[char] = text.count(char)
+    char_dict = {char: text.count(char) for char in set(text)}
     return sorted(char_dict.items(), key=lambda x: x[1])[0][0]
 
 
@@ -45,11 +43,7 @@ def count_punctuation_chars(file_path: str) -> int:
     :return: number of punctuation chars
     """
     with open(file_path, encoding="unicode-escape") as f:
-        counter = 0
-        for char in f.read():
-            if char in string.punctuation:
-                counter += 1
-        return counter
+        return sum(1 for x in f.read() if x in string.punctuation)
 
 
 def count_not_ascii_chars(file_path: str) -> int:
@@ -81,7 +75,5 @@ def get_most_common_non_ascii_char(file_path: str) -> str:
     chars = set(text) - set(
         string.punctuation + string.ascii_letters + string.digits + "\n "
     )
-    char_dict = {}
-    for char in chars:
-        char_dict[char] = text.count(char)
+    char_dict = {char: text.count(char) for char in chars}
     return sorted(char_dict.items(), key=lambda x: x[1])[-1][0]

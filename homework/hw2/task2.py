@@ -24,8 +24,6 @@ def major_and_minor_elem(inp: List) -> Tuple[int, int]:
     :param inp: Given list
     :return: Major element, minor element
     """
-    char_dict = {}
-    for char in set(inp):
-        char_dict[char] = inp.count(char)
+    char_dict = {char: inp.count(char) for char in set(inp)}
     chars = sorted(char_dict, key=char_dict.get)
     return chars[-1], chars[0]
