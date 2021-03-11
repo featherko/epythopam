@@ -1,12 +1,16 @@
 from homework.hw2.task4 import cache
 
-
-def func(a, b):
-    return (a ** b) ** 2
+counter = 0
 
 
-cache_func = cache(func)
-some = 100, 200
-val_1 = cache_func(*some)
-val_2 = cache_func(*some)
-assert val_1 is val_2
+def test_cache_decorator():
+    @cache
+    def f(a, b):
+        global counter
+        counter += 1
+        return a + b
+
+    assert f(1, 2) == 3
+    assert counter == 1
+    assert f(1, 2) == 3
+    assert counter == 1
