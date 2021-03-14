@@ -6,6 +6,7 @@ ignore = E203, E501, W503,  # handled by black
          D107,  #  Missing docstring in __init__
          PT006, # told to be ignored
 
+
 exclude =
     *_venv
     venv_*
@@ -16,6 +17,9 @@ per-file-ignores =
     test*.py: D10, D101, D103, S101, ANN
     # Skip unused imports in __init__ files
     __init__.py: F401
+    task1_times_cache.py: R504
+    task2_not_very_calc.py: S311, S303
+
 
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = homework
