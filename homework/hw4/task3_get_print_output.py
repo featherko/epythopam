@@ -28,7 +28,5 @@ def my_precious_logger(text: str) -> Optional[NoReturn]:
 
     :param text: given text
     """
-    if text.startswith("error"):
-        sys.stderr.write(text)
-    else:
-        sys.stdout.write(text)
+    log = sys.stderr if text.startswith("error") else sys.stdout
+    log.write(text)

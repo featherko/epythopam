@@ -18,6 +18,7 @@ You will learn:
 * https://docs.python.org/3/library/urllib.request.html#urllib.request.urlopen
 """
 import requests
+from requests import RequestException
 
 
 def counts(url: str) -> int:
@@ -31,5 +32,5 @@ def counts(url: str) -> int:
     try:
         r = requests.get(url)
         return r.text.count("i")
-    except requests.exceptions.RequestException:
+    except RequestException:
         raise ValueError(f"Unreachable {url}")

@@ -58,7 +58,7 @@ def test_magic_exception_in_text() -> Optional[NoReturn]:
     try:
         with open("kun.txt", "w") as f:
             f.write("asdfasdf")
-            read_magic_number(f.name)
+        read_magic_number(f.name)
     except Exception as e:
         raise e
     finally:
