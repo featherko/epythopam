@@ -35,7 +35,7 @@ PEP8 соблюдать строго.
 давать логичные подходящие имена.
 """
 import datetime
-from typing import Any
+from typing import Optional
 
 
 class Homework:
@@ -62,7 +62,7 @@ class Student:
         self.first_name = first_name
 
     @staticmethod
-    def do_homework(todo: Homework) -> Any:
+    def do_homework(todo: Homework) -> Optional[Homework]:
         """Homework.
 
         Returns Homework, if it's still in timeframe to do, either prints and

@@ -20,7 +20,7 @@ print(custom_sum.__original_func)  # <function custom_sum at <some_id>>
 """
 
 import functools
-from typing import Any, Callable
+from typing import Any, Callable, Iterable, Union
 
 
 def my_update(wrapper: Callable, wrapped: Callable) -> Callable:
@@ -61,7 +61,7 @@ def print_result(func: Callable) -> Callable:
 
 
 @print_result
-def custom_sum(*args: Any) -> Any:
+def custom_sum(*args: Union[Iterable, str, int]) -> Union[Iterable, str, int]:
     """This function can sum any objects which have __add___."""
     return functools.reduce(lambda x, y: x + y, args)
 
