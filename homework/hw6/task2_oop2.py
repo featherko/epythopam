@@ -91,7 +91,7 @@ class Homework:
 class Student(Person):
     """Student."""
 
-    def do_homework(self, todo: Homework, solution: str) -> Union[T, DeadlineError]:
+    def do_homework(self, todo: Homework, solution: str) -> Union[T, NoReturn]:
         """Homework.
 
         Returns Homework, if it's still in timeframe to do, either prints and
@@ -99,8 +99,7 @@ class Student(Person):
         """
         if todo.is_active():
             return HomeworkResult(self, todo, solution)
-        else:
-            raise DeadlineError
+        raise DeadlineError
 
 
 class HomeworkResult:
@@ -114,8 +113,7 @@ class HomeworkResult:
         self.solution = solution
         if not isinstance(hw_name, Homework):
             raise NotHomework
-        else:
-            self.hw_name = hw_name
+        self.hw_name = hw_name
 
 
 class Teacher(Person):
@@ -138,12 +136,10 @@ class Teacher(Person):
         Checks given HomeworkResult, if solutions more or eq 5 returns True and
         also adds this Homework into homework_done dict
         """
-        if len(checking.solution) >= 5:
-            if checking not in cls.homework_done[checking.hw_name]:
-                cls.homework_done[checking.hw_name].append(checking)
-            return True
-        else:
-            return False
+        flag_sol_true = len(checking.solution) >= 5
+        if flag_sol_true and checking not in cls.homework_done[checking.hw_name]:
+            cls.homework_done[checking.hw_name].append(checking)
+        return flag_sol_true
 
     @classmethod
     def reset_results(

@@ -39,6 +39,9 @@ def instances_counter(some_class: Type[T]) -> Type[T]:
 
             return super(Countcls, Countcls).__new__(cls)
 
+        """def __init__(self):
+            Countcls.count += 1"""
+
         @classmethod
         def get_created_instances(cls: Type[T]) -> int:
             return cls.count
