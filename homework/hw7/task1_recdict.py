@@ -70,19 +70,13 @@ def go_deeper(checked: Any, element: Any) -> int:
 
 
 if __name__ == "__main__":
-    print(find_occurrences_rec(example_tree, "RED"))  # noqa: T001
+    print(find_occurrences_rec(example_tree, "RED"))
 
     exam = {a: b for a, b in zip(range(3), range(3))}
 
-    print(find_occurrences_rec(exam, exam))  # noqa: T001
+    print(find_occurrences_rec(exam, exam))
     z = {**exam, "a": exam}
     z = {**exam, "a": z}
-    print(z)  # noqa: T001
-    print(exam)  # noqa: T001
-    print((find_occurrences_rec(z, exam)))  # noqa: T001
-
-"""for key, value in tree.items():
-        found += count_increment(key, element)
-        found += count_increment(value, element)
-        found += check_nested_dict(value, element)
-        found += check_nested_list(value, element)"""
+    print(z)
+    print(exam)
+    print((find_occurrences_rec(z, exam)))

@@ -22,13 +22,9 @@ from typing import List
 def tic_tac_toe_checker(board: List[List]) -> str:
     """Check board, return who win or draw/unfinished."""
     a, b, c = board
-    diags = [[a[0], a[1], a[2]], [a[2], b[1], c[0]]]
-    """
-    можно еще так ?
-    diags = [
-        [r[i] for r, i in zip(board, range(3))],
-        [r[i] for r, i in zip(board, range(2, -1, -1))]
-    ]"""
+    diag_1 = [a[0], a[1], a[2]]
+    diag_2 = [a[2], b[1], c[0]]
+    diags = [diag_1, diag_2]
     for rows in [board, zip(*board), diags]:
         for line in rows:
             if "-" not in line and len(set(line)) == 1:

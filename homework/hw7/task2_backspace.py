@@ -14,6 +14,7 @@ Examples:
     Output: False
     Explanation: s becomes "c" while t becomes "b".
 """
+from typing import List
 
 
 def calc_backspace(text: str) -> str:
@@ -27,23 +28,9 @@ def calc_backspace(text: str) -> str:
     return "".join(new_string)
 
 
-"""Не знаю, какая лучше"""
-
-
-def c(text: str) -> str:
-    """Re-write text with backspace instead of #."""
-    new_string = ""
-    for char in text:
-        if char != "#":
-            new_string += char
-        elif len(new_string) > 0:
-            new_string = new_string[:-1]
-    return new_string
-
-
 def backspace_compare(first: str, second: str) -> bool:
     """Compare if two given strings are equal."""
-    return c(first) == c(second)
+    return calc_backspace(first) == calc_backspace(second)
 
 
 """some proof of concept"""
@@ -51,26 +38,32 @@ def backspace_compare(first: str, second: str) -> bool:
 
 def random_fun(string: str, string2: str) -> bool:  # noqa: CCR001
     """Compare if two given strings are equal."""
-    istr = ""
-    kstr = ""
+    istr = []
+    kstr = []
     iflag = 0
     kflag = 0
     for i, k in zip(string[::-1], string2[::-1]):
-        if i != "#" and iflag == 0:
-            istr += i
-        elif iflag > 0 and i != "#":
-            iflag -= 1
-        else:
-            iflag += 1
-
-        if k != "#" and kflag == 0:
-            kstr += k
-        elif kflag > 0 and k != "#":
-            kflag -= 1
-        else:
-            kflag += 1
-
+        iflag = flags_check(i, iflag, istr)
+        kflag = flags_check(k, kflag, kstr)
         a = min(len(istr), len(kstr))
         if istr[:a] != kstr[:a]:
             return False
     return kstr == istr
+
+
+def flags_check(char: str, flag: int, val_string: List) -> int:
+    """Check flag count.
+
+    Recalculates flag count or writes new element into list
+
+    :param char: given character
+    :param flag: flag value
+    :param val_string: list of characters
+    """
+    if char != "#" and flag == 0:
+        val_string.append(char)
+    elif char != "#":
+        flag -= 1
+    else:
+        flag += 1
+    return flag
