@@ -8,62 +8,42 @@ reset_instances_counter - сбросить счетчик экземпляров
 Имя декоратора и методов не менять
 Ниже пример использования
 """
-from typing import Type, TypeVar
+from typing import Any, NoReturn, Optional, Type, TypeVar
 
 T = TypeVar("T")
 
 
 def instances_counter(some_class: Type[T]) -> Type[T]:
-    """Decr.
+    """Class decorator.
 
     Decorator that updates class with get_created_instances and
     reset_instances_counter methods.
     """
-    """itero = [
-        '__new__',
-        "get_created_instances",
-        "reset_instances_counter",
-        "count",
-    ]"""
 
-    class Countcls:
-        """Countcls.
+    class Countcls(some_class):
+        @classmethod
+        def init_counter(cls: Type[T]) -> Optional[NoReturn]:
+            if "count" not in cls.__dict__:
+                cls.count = 0
 
-        Subclass for decoration purposes.
-        """
-
-        count = 0
-
-        def __new__(cls):
-            cls.count += 1
-
-            return super(Countcls, Countcls).__new__(cls)
-
-        """def __init__(self):
-            Countcls.count += 1"""
+        def __init__(self, *args: Any, **kwargs: Any):
+            self.init_counter()
+            super().__init__(*args, **kwargs)
+            self.__class__.count += 1
 
         @classmethod
         def get_created_instances(cls: Type[T]) -> int:
+            cls.init_counter()
             return cls.count
 
         @classmethod
         def reset_instances_counter(cls: Type[T]) -> int:
+            cls.init_counter()
             temp = cls.count
             cls.count = 0
             return temp
 
-    """for meth in itero:
-        value = getattr(Countcls, meth)
-        setattr(some_class, meth, value)"""
-
-    for meth in Countcls.__dict__:
-        if meth not in some_class.__dict__:
-            setattr(some_class, meth, Countcls.__dict__[meth])
-    """some_class.__new__ = Countcls.__new__
-    some_class.get_created_instances = Countcls.get_created_instances
-    some_class.reset_instances_counter = Countcls.reset_instances_counter
-    some_class.count = Countcls.count"""
-    return some_class
+    return Countcls
 
 
 @instances_counter
