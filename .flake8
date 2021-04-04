@@ -22,6 +22,8 @@ per-file-ignores =
     task1_class.py: T001
     task2_decor.py: T001, D401
     task1_recdict.py :T001
+    task1_counter.py : T001, R504
+    task2_oop2.py: T001, S101
 
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = homework
