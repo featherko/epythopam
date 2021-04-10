@@ -47,8 +47,10 @@ class TableData:
 
         Checks if given item in the given table.
         """
-        self._cursor.execute(f"SELECT * from {self.table_name}")
-        return any(item in tab[0] for tab in self._cursor.fetchall())
+        self._cursor.execute(
+            f"SELECT * from {self.table_name} where name=:name", {"name": item}
+        )
+        return any(item in tab for tab in self._cursor.fetchall())
 
     def __enter__(self):
         """Context manager enter."""
