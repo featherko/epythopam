@@ -39,9 +39,10 @@ class TableData:
         Checks if given item in the given table.
         """
         self._cursor.execute(
-            f"SELECT * from {self.table_name} where name=:name", {"name": item}
+            f"SELECT EXISTS(SELECT 1 from {self.table_name} where name=:name)",
+            {"name": item},
         )
-        return self._cursor.fetchone() is not None
+        return self._cursor.fetchone()[0]
 
     def __enter__(self):
         """Context manager enter."""
