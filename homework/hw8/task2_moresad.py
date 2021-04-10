@@ -23,24 +23,15 @@ class TableData:
         self._cursor.execute(
             f"SELECT * from {self.table_name} where name=:name", {"name": item}
         )
-        return self._cursor.fetchone()
+        return dict(self._cursor.fetchone())
 
     def __iter__(self):
         """Implement iter protocol.
 
         Let us iterate through the rows.
         """
-
-        def dict_factory(row: tuple) -> dict:
-            d = {}
-            for idx, col in enumerate(self._cursor.description):
-                d[col[0]] = row[idx]
-            return d
-
-        yield from (
-            dict_factory(row)
-            for row in self._cursor.execute(f"SELECT * from {self.table_name}")
-        )
+        for row in self._cursor.execute(f"SELECT * from {self.table_name}"):
+            yield dict(row)
 
     def __contains__(self, item: str) -> bool:
         """Implement contains protocol.
@@ -50,11 +41,12 @@ class TableData:
         self._cursor.execute(
             f"SELECT * from {self.table_name} where name=:name", {"name": item}
         )
-        return any(item in tab for tab in self._cursor.fetchall())
+        return self._cursor.fetchone() is not None
 
     def __enter__(self):
         """Context manager enter."""
         self._conn = sqlite3.connect(self.database_name)
+        self._conn.row_factory = sqlite3.Row
         self._cursor = self._conn.cursor()
         return self
 

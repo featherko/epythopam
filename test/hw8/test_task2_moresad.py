@@ -15,7 +15,7 @@ def test_len(presidents):
 
 
 def test_get_item(presidents):
-    assert presidents["Yeltsin"] == ("Yeltsin", 999, "Russia")
+    assert presidents["Yeltsin"] == {"age": 999, "country": "Russia", "name": "Yeltsin"}
 
 
 def test_contains(presidents):
