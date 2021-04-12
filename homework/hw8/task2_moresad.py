@@ -20,9 +20,8 @@ class TableData:
         Get us access to single data row for president with given name
         Example: presidents['Yeltsin'] # ('Yeltsin', 999, 'Russia')
         """
-        self._cursor.execute(
-            f"SELECT * from {self.table_name} where name=:name", {"name": item}
-        )
+        _sql_call = f"SELECT * from {self.table_name} where name=:name"
+        self._cursor.execute(_sql_call, {"name": item})
         return dict(self._cursor.fetchone())
 
     def __iter__(self):
@@ -38,10 +37,8 @@ class TableData:
 
         Checks if given item in the given table.
         """
-        self._cursor.execute(
-            f"SELECT EXISTS(SELECT 1 from {self.table_name} where name=:name)",
-            {"name": item},
-        )
+        _sql_call = f"SELECT EXISTS(SELECT 1 from {self.table_name} where name=:name)"
+        self._cursor.execute(_sql_call, {"name": item})
         return self._cursor.fetchone()[0]
 
     def __enter__(self):
