@@ -18,7 +18,8 @@ class TableData:
         """Get item protocol.
 
         Get us access to single data row for president with given name
-        Example: presidents['Yeltsin'] # ('Yeltsin', 999, 'Russia')
+        Example: presidents['Yeltsin'] #
+        {"age": 999, "country": "Russia", "name": "Yeltsin"}
         """
         _sql_call = f"SELECT * from {self.table_name} where name=:name"
         self._cursor.execute(_sql_call, {"name": item})
