@@ -27,9 +27,10 @@ def universal_file_counter(
     count = 0
     for file in dir_path.glob("*." + file_extension):
         with open(file) as f:
-            if tokenizer:
-                for line in f:
-                    count += len(tokenizer(line))
-            else:
-                count += sum(1 for _ in f)
+            count += (
+                sum(len(tokenizer(line)) for line in f)
+                if tokenizer
+                else sum(1 for _ in f)
+            )
+
     return count
