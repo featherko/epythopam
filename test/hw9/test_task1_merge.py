@@ -12,7 +12,7 @@ def files(text1: str, text2: str):
         file = f"test{i}_{i}.txt"
         with open(file, "w") as f:
             f.write(text)
-    yield "test0_0.txt", "test1_1.txt"
+    yield tuple(f"test{i}_{i}.txt" for i in range(len(args)))
     for i in range(len(args)):
         os.remove(f"test{i}_{i}.txt")
 
@@ -35,7 +35,7 @@ def files2(text1, text2, text3):
         file = f"test{i}.txt"
         with open(file, "w") as f:
             f.write(text)
-    yield "test0.txt", "test1.txt", "test2.txt"
+    yield tuple(f"test{i}.txt" for i in range(len(args)))
     for i in range(len(args)):
         os.remove(f"test{i}.txt")
 
