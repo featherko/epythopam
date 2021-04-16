@@ -7,15 +7,14 @@ from homework.hw9.task1_merge import merge_sorted_files
 
 @pytest.fixture()
 def files(text1: str, text2: str):
-    file1 = "file_1.txt"
-    file2 = "file_2.txt"
-    with open(file1, "w") as f1:
-        f1.write(text1)
-    with open(file2, "w") as f2:
-        f2.write(text2)
-    yield file1, file2
-    os.remove(file1)
-    os.remove(file2)
+    args = [text1, text2]
+    for i, text in enumerate(args):
+        file = f"test{i}_{i}.txt"
+        with open(file, "w") as f:
+            f.write(text)
+    yield "test0_0.txt", "test1_1.txt"
+    for i in range(len(args)):
+        os.remove(f"test{i}_{i}.txt")
 
 
 @pytest.mark.parametrize(
@@ -30,20 +29,15 @@ def test_merge_sorted_files(files):
 
 
 @pytest.fixture()
-def files2(text1: str, text2: str, text3: str):
-    file1 = "file_1_2.txt"
-    file2 = "file_2_2.txt"
-    file3 = "file_3_2.txt"
-    with open(file1, "w") as f1:
-        f1.write(text1)
-    with open(file2, "w") as f2:
-        f2.write(text2)
-    with open(file3, "w") as f3:
-        f3.write(text3)
-    yield file1, file2, file3
-    os.remove(file1)
-    os.remove(file2)
-    os.remove(file3)
+def files2(text1, text2, text3):
+    args = [text1, text2, text3]
+    for i, text in enumerate(args):
+        file = f"test{i}.txt"
+        with open(file, "w") as f:
+            f.write(text)
+    yield "test0.txt", "test1.txt", "test2.txt"
+    for i in range(len(args)):
+        os.remove(f"test{i}.txt")
 
 
 @pytest.mark.parametrize(

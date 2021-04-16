@@ -11,7 +11,7 @@ file2.txt:
 6
 """
 from pathlib import Path
-from typing import Iterator, List, Optional, Union
+from typing import Iterator, List, Union
 
 
 def open_file(file_name: Union[Path, str]) -> Iterator:
@@ -23,15 +23,6 @@ def open_file(file_name: Union[Path, str]) -> Iterator:
     with open(file_name) as f:
         for line in f:
             yield int(line)
-
-
-def get_next(itr: Iterator) -> Optional[int]:
-    """Get next value from iterator."""
-    try:
-        val = next(itr)
-    except StopIteration:
-        val = None
-    return val  # noqa: R504
 
 
 def merge_sorted_files(file_list: List[Union[Path, str]]) -> Iterator:
@@ -46,8 +37,9 @@ def merge_sorted_files(file_list: List[Union[Path, str]]) -> Iterator:
     while True:
         key, minor = min(nums.items(), key=lambda x: x[1])
         yield minor
-        a = get_next(key)
-        if a:
-            nums[key] = a
-        else:
+        try:
+            nums[key] = next(key)
+        except StopIteration:
             del nums[key]
+        if not nums:
+            return

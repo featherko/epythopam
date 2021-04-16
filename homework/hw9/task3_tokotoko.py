@@ -27,10 +27,13 @@ def universal_file_counter(
     count = 0
     for file in dir_path.glob("*." + file_extension):
         with open(file) as f:
-            count += (
-                sum(len(tokenizer(line)) for line in f)
-                if tokenizer
-                else sum(1 for _ in f)
-            )
-
+            count += sum(len(tokenizer(line)) if tokenizer else 1 for line in f)
     return count
+
+
+"""token = f(x) if tokenizier else 1
+    count += sum(token(line) for line in f)
+
+def f(x):
+    return len(tokenizer(x))
+    """
