@@ -27,6 +27,7 @@ per-file-ignores =
     task2_moresad.py: S608
     task2_suppress.py: D105
 
+
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = homework
 import-order-style = pycharm
