@@ -1,22 +1,34 @@
-# flake8: noqa
+"""Task 1."""
 
 import asyncio
 import json
 from heapq import nlargest
-from typing import List, Dict
+from typing import Dict, List, Tuple
 
 import aiohttp
-
 from bs4 import BeautifulSoup
 
 
 async def get_page(url: str) -> str:
+    """Async page request.
+
+    Request to the page, and getting raw text from it.
+
+    :param url: page url
+    :return: raw text from this page.
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             return await resp.text()
 
 
 async def exchange() -> float:
+    """Exchange rate.
+
+    Checks current exchange rate USD to RUB on cbr site.
+
+    :return: Current exchange rate USD to RUB.
+    """
     url_cbr = "http://www.cbr.ru/scripts/XML_daily.asp"
     page = await get_page(url_cbr)
     page = BeautifulSoup(page, "lxml")
@@ -25,6 +37,12 @@ async def exchange() -> float:
 
 
 async def page_cnt() -> int:
+    """Page count.
+
+    Checks amount of pages with tables.
+
+    :return: number of pages
+    """
     url = "https://markets.businessinsider.com/index/components/s&p_500"
     page = await get_page(url)
     page = BeautifulSoup(page, "lxml")
@@ -32,30 +50,50 @@ async def page_cnt() -> int:
     return len(pages)
 
 
-async def get_page_comps(page: int):
+async def get_page_comps(page: int) -> List[Dict]:
+    """Table info about companies.
+
+    Gets information about companies from table.
+
+    :param page: number of the page we get info from.
+    :return: List of dicts with info about companies
+    """
     url_p = "https://markets.businessinsider.com/index/components/s&p_500?p={}"
     comps = []
     page = BeautifulSoup(await get_page(url_p.format(page)), "lxml")
     table = page.find(class_="table table-small")
     for row in table.find_all("tr")[1:]:
         comps.append(
-            dict(
-                name=row.find("a")["title"],
-                href=row.find("a")["href"],
-                growth=row.find_all("td")[9].text.split()[1],
-            )
+            {
+                "name": row.find("a")["title"],
+                "href": row.find("a")["href"],
+                "growth": row.find_all("td")[9].text.split()[1],
+            }
         )
     return comps
 
 
-async def get_all_comps():
+async def get_all_comps() -> Tuple:
+    """Info about companies.
+
+    Gets information from all pages with tables through async methods.
+
+    :return: List of dicts.
+    """
     pages = await page_cnt()
     tasks = [get_page_comps(i) for i in range(1, pages + 1)]
-    print(tasks)
     return await asyncio.gather(*tasks)
 
 
-async def comp_info(comp, exchange_rage: float) -> Dict:
+async def comp_info(comp: dict, exchange_rage: float) -> Dict:
+    """Full information on company.
+
+    Parse through company's page and return full requested info on this
+    company
+
+    :param comp: Raw data in dict form from get_page_comps
+    :return: Full requested data in dict form
+    """
     c_url = "https://markets.businessinsider.com" + comp["href"]
     page = BeautifulSoup(await get_page(c_url), "lxml")
     table = page.find("span", class_="price-section__category")
@@ -64,7 +102,14 @@ async def comp_info(comp, exchange_rage: float) -> Dict:
     price = float(table.text.replace(",", "")) * exchange_rage
     snapshots = page.find_all("div", class_="snapshot__highlow")
     if len(snapshots) < 2:
-        low = high = 1
+        text = snapshots[0].find("div", class_="snapshot__header").text
+        if text != "52 Week Low":
+            low, high = 1, 1
+        else:
+            low, high = (
+                float(x.text.replace(",", "").split()[0])
+                for x in snapshots[0].find_all("div", class_="snapshot__data-item")
+            )
     else:
         low, high = (
             float(x.text.replace(",", "").split()[0])
@@ -87,7 +132,13 @@ async def comp_info(comp, exchange_rage: float) -> Dict:
     }
 
 
-async def get_all_info():
+async def get_all_info() -> Tuple:
+    """Information about all companies.
+
+    Get's all full info about all companies, through async method.
+
+    :return: Tuple of Dicts.
+    """
     comps = await get_all_comps()
     exchange_r = await exchange()
     tasks = []
@@ -98,6 +149,7 @@ async def get_all_info():
 
 
 def save_to_json(filename: str, value_name: str, data: List[Dict]) -> None:
+    """Save data to json."""
     with open(filename + ".json", "w") as file:
         top_10 = [
             {
@@ -111,7 +163,7 @@ def save_to_json(filename: str, value_name: str, data: List[Dict]) -> None:
 
 
 def json_go() -> None:
-    """Start point."""
+    """Make is json."""
     companies_info = asyncio.run(get_all_info())
     save_to_json(
         "top_growth",
@@ -133,6 +185,3 @@ def json_go() -> None:
         "profit",
         nlargest(10, companies_info, key=lambda x: x["profit"]),
     )
-
-
-json_go()
