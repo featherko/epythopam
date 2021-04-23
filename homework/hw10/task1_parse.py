@@ -126,7 +126,7 @@ async def comp_info(comp: dict, exchange_rage: float) -> Dict:
     return {
         **comp,
         "code": code,
-        "P/E": pe,
+        "PE": pe,
         "price": round(price, 2),
         "profit": round((high - low) / low, 2),
     }
@@ -165,23 +165,10 @@ def save_to_json(filename: str, value_name: str, data: List[Dict]) -> None:
 def json_go() -> None:
     """Make is json."""
     companies_info = asyncio.run(get_all_info())
-    save_to_json(
-        "top_growth",
-        "growth",
-        nlargest(10, companies_info, key=lambda x: x["growth"]),
-    )
-    save_to_json(
-        "top_PE",
-        "P/E",
-        nlargest(10, companies_info, key=lambda x: x["P/E"]),
-    )
-    save_to_json(
-        "top_price",
-        "price",
-        nlargest(10, companies_info, key=lambda x: x["price"]),
-    )
-    save_to_json(
-        "top_potential_profit",
-        "profit",
-        nlargest(10, companies_info, key=lambda x: x["profit"]),
-    )
+    terms = ["growth", "PE", "price", "profit"]
+    for term in terms:
+        save_to_json(
+            "top_growth",
+            term,
+            nlargest(10, companies_info, key=lambda x: x[term]),
+        )
