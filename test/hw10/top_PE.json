@@ -1,0 +1,52 @@
+[
+    {
+        "name": "AutoZone",
+        "code": "AZO",
+        "PE": 973.19
+    },
+    {
+        "name": "Chipotle Mexican Grill",
+        "code": "CMG",
+        "PE": 772.01
+    },
+    {
+        "name": "Mettler-Toledo International",
+        "code": "MTD",
+        "PE": 661.32
+    },
+    {
+        "name": "Equinix",
+        "code": "EQIX",
+        "PE": 586.73
+    },
+    {
+        "name": "Intuitive Surgical",
+        "code": "ISRG",
+        "PE": 488.0
+    },
+    {
+        "name": "Charte a",
+        "code": "CHTR",
+        "PE": 486.77
+    },
+    {
+        "name": "BlackRock",
+        "code": "BLK",
+        "PE": 451.35
+    },
+    {
+        "name": "Regeneron Pharmaceuticals",
+        "code": "REGN",
+        "PE": 441.0
+    },
+    {
+        "name": "Netflix",
+        "code": "NFLX",
+        "PE": 393.6
+    },
+    {
+        "name": "O Reilly Automotive",
+        "code": "ORLY",
+        "PE": 357.62
+    }
+]

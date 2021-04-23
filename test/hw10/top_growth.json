@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Skyworks Solutions",
+        "code": "SWKS",
+        "growth": "99.84%"
+    },
+    {
+        "name": "Microchip Technology",
+        "code": "MCHP",
+        "growth": "99.68%"
+    },
+    {
+        "name": "Pioneer Natural Resources",
+        "code": "PXD",
+        "growth": "98.72%"
+    },
+    {
+        "name": "Micron Technology",
+        "code": "MU",
+        "growth": "97.53%"
+    },
+    {
+        "name": "General Electric",
+        "code": "GE",
+        "growth": "95.76%"
+    },
+    {
+        "name": "Dow",
+        "code": "DOW",
+        "growth": "93.77%"
+    },
+    {
+        "name": "United Airlines",
+        "code": "UAL",
+        "growth": "92.98%"
+    },
+    {
+        "name": "PNC Financial Services Group",
+        "code": "PNC",
+        "growth": "92.90%"
+    },
+    {
+        "name": "Delta Air Lines",
+        "code": "DAL",
+        "growth": "92.38%"
+    },
+    {
+        "name": "American International Group (AIG)",
+        "code": "AIG",
+        "growth": "92.16%"
+    }
+]
