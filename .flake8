@@ -26,7 +26,7 @@ per-file-ignores =
     task2_oop2.py: T001, S101
     task2_moresad.py: S608
     task2_suppress.py: D105
-
+    table_create.py: A003
 
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = homework
