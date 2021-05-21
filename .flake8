@@ -5,6 +5,9 @@ ignore = E203, E501, W503,  # handled by black
          D200,  # One-line docstring should fit on one line with quotes
          D107,  #  Missing docstring in __init__
          PT006, # told to be ignored
+         T001,
+         F405 # can't handle pony.orm
+         F403 # can't handle pony.orm
 
 
 exclude =
@@ -27,6 +30,7 @@ per-file-ignores =
     task2_moresad.py: S608
     task2_suppress.py: D105
     table_create.py: A003
+    cian_parser.py: R503
 
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = homework
